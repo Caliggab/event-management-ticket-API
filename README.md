@@ -48,6 +48,8 @@ Complete list of endpoints can be found in the [API documentation](https://elani
 
 ## Testing
 
+Each Route and method has been constructed with TDD in mind, so each route and associated method has its corresponding unit test. There are more than 40 tests planned for this API and more will be added in the future!
+
 1. To run integration tests:
    ```bash
    ./vendor/bin/sail test
