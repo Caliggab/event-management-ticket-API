@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('refunds', function (Blueprint $table) {
+        Schema::create('order_detail_ticket', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('order_id');
-            $table->string('reason');
-            $table->dateTime('refund_date');
+            $table->string('order_detail_id');
+            $table->string('ticket_id');
+            $table->integer('total_quantity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('refunds');
+        //
     }
 };

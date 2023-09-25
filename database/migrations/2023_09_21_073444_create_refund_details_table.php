@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('refund_details', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('refund_id');
             $table->string('order_id');
             $table->integer('refunded_amount');

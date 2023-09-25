@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TicketTypeController;
 
 
 /*
@@ -18,23 +19,29 @@ use App\Http\Controllers\TicketController;
 |
 */
 
+// Public route to view all events
+Route::get('/events', [EventController::class, 'index']);
+
 Route::middleware(['auth:sanctum'])->get('/users', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('/events', EventController::class);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('/events', EventController::class)->except('index');
 });
 
 Route::prefix('events/{event}')->group(function () {
-    Route::resource('tickets', TicketController::class)->except(['create', 'edit']);
-
-    Route::patch('{ticket}/check-in', [TicketController::class, 'checkIn']);
+    Route::apiResource('tickets', TicketController::class);
 });
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('events.ticket-types', TicketTypeController::class);
+});
+
+Route::middleware(['auth:sanctum'])->patch('{ticket}/check-in', [TicketController::class, 'checkIn']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('orders', OrderController::class)->except(['create', 'edit']);
+    Route::apiResource('orders', OrderController::class);
+
+    Route::put('orders/{order}/refund', [OrderController::class, 'refund']);
 });
-
-

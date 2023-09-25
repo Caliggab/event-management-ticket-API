@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Ticket;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TicketTest extends TestCase
 {
@@ -26,14 +27,27 @@ class TicketTest extends TestCase
     public function test_can_store_a_new_ticket_for_an_event()
     {
         $event = Event::factory()->create();
+        $ticketNumber = $this->faker->numberBetween(50, 1000);
+
         $ticketData = [
+            'event_id' => $event->id,
+            'user_id' => $this->faker->uuid(),
+            'order_id' => $this->faker->uuid(),
+            'ticket_type_id' => $this->faker->uuid(),
             'name' => $this->faker->word,
-            'price' => $this->faker->randomFloat(2, 1, 100),
+            'description' => $this->faker->text(250),
+            // 'price' => $this->faker->randomFloat(2, 1, 150),
+            'status' => $this->faker->word,
+            'total_quantity' => $ticketNumber,
+            'available_quantity' => $ticketNumber,
+            'start_date_time' => $this->faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d H:i:s'),
+            'end_date_time' => $this->faker->dateTimeBetween('+2 months', '+6 months')->format('Y-m-d H:i:s'),
         ];
 
         $response = $this->postJson("/api/events/{$event->id}/tickets", $ticketData);
 
         $response->assertStatus(201);
+
         $this->assertDatabaseHas('tickets', $ticketData);
     }
 
@@ -55,7 +69,8 @@ class TicketTest extends TestCase
 
         $ticketData = [
             'name' => 'Updated Name',
-            'price' => 99.99,
+            // 'price' => 99.99,
+            'description' => 'Ticket desc'
         ];
 
         $response = $this->putJson("/api/events/{$event->id}/tickets/{$ticket->id}", $ticketData);
@@ -72,14 +87,21 @@ class TicketTest extends TestCase
         $response = $this->deleteJson("/api/events/{$event->id}/tickets/{$ticket->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('tickets', ['id' => $ticket->id]);
+
+        $this->assertDatabaseHas('tickets', [
+            'id' => $ticket->id,
+            'deleted_at' => now()
+        ]);
     }
 
     public function test_a_ticket_can_be_checked_in()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $ticket = Ticket::factory()->create(['status' => 'available']);
 
-        $response = $this->patchJson("/api/tickets/{$ticket->id}/check-in");
+        $response = $this->patchJson("/api/{$ticket->id}/check-in");
 
         $response->assertStatus(200);
         $this->assertEquals('checked_in', $ticket->fresh()->status);
@@ -87,9 +109,12 @@ class TicketTest extends TestCase
 
     public function test_a_refunded_ticket_cannot_be_checked_in()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $ticket = Ticket::factory()->create(['status' => 'refunded']);
 
-        $response = $this->patchJson("/api/tickets/{$ticket->id}/check-in");
+        $response = $this->patchJson("/api/{$ticket->id}/check-in");
 
         $response->assertStatus(400);
         $this->assertEquals('refunded', $ticket->fresh()->status);
@@ -97,9 +122,12 @@ class TicketTest extends TestCase
 
     public function test_an_already_checked_in_ticket_cannot_be_checked_in_again()
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        
         $ticket = Ticket::factory()->create(['status' => 'checked_in']);
 
-        $response = $this->patchJson("/api/tickets/{$ticket->id}/check-in");
+        $response = $this->patchJson("/api/{$ticket->id}/check-in");
 
         $response->assertStatus(400);
         $this->assertEquals('checked_in', $ticket->fresh()->status);

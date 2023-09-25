@@ -62,12 +62,8 @@ class TicketTypeController extends Controller
             return response()->json(['message' => 'Mismatch between event and ticket type.'], 400);
         }
 
-        if ($ticketType->orders->count() > 0) {
-            return response()->json(['message' => 'Cannot delete a ticket type with orders.'], 400);
-        }
-
         $ticketType->delete();
 
-        return response()->json(['message' => 'Ticket type deleted successfully.'], 200);
+        return response()->json(['message' => 'Ticket type deleted successfully.'], 204);
     }
 }

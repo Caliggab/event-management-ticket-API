@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Illuminate\Support\Str;
 use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
@@ -14,8 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $events = $user->events()->paginate(10);
+        $events = Event::paginate(10);
         return response()->json($events, 200);
     }
 
@@ -28,10 +28,8 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         $event = new Event($request->all());
+        $event->id = Str::uuid();
         $event->user_id = auth()->id();
-        
-        info("event");
-        info($event);
 
         $event->save();
 

@@ -15,10 +15,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        // You can include filters based on the parameters specified earlier (by ticket type, attendee, etc.)
-        $orders = Order::all();
 
-        return response()->json($orders);
+        $orders = Order::paginate(10);
+        return response()->json($orders, 200);
     }
 
     /**
@@ -60,8 +59,7 @@ class OrderController extends Controller
 
         // update ticket count
         foreach ($order->tickets as $ticket) {
-            $ticketType = $ticket->ticketType; 
-            $ticketType->increment('available_count');
+            $ticket->increment('available_quantity');
             $ticket->update(['status' => 'refunded']);
         }
 

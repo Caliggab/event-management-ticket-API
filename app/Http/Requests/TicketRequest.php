@@ -24,13 +24,20 @@ class TicketRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'quantity_available' => 'nullable|integer|min:1',
-            'price' => 'required|numeric|min:0',
-            'description' => 'nullable|string',
-            'sale_start_date' => 'required|date_format:Y-m-d H:i:s',
-            'sale_end_date' => 'required|date_format:Y-m-d H:i:s|after:sale_start_date',
-            'purchase_limit' => 'nullable|integer|min:1'
+            'name' => 'sometimes|required|string|max:255',
+            'total_quantity' => 'sometimes|nullable|integer|min:1',
+            'available_quantity' => 'sometimes|nullable|integer|min:1',
+            'price' => 'sometimes|required|numeric|min:0',
+            'description' => 'sometimes|nullable|string',
+            'ticket_type_id' => 'sometimes|required|string',
+            'event_id' => 'sometimes|required|string',
+            'order_id' => 'sometimes|required|string',
+            'user_id' => 'sometimes|required|string',
+            'status' => 'sometimes|nullable|string',
+            'location' => 'sometimes|nullable|string',
+            'start_date_time' => 'sometimes|required|date_format:Y-m-d H:i:s',
+            'end_date_time' => 'sometimes|required|date_format:Y-m-d H:i:s|after:sale_start_date',
+            'purchase_limit' => 'sometimes|nullable|integer|min:1'
         ];
     }
 

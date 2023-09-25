@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_details', function (Blueprint $table) {
-            $table->id();
-            $table->string('order_id');
-            $table->string('ticket_id');
-            $table->string('atendee_name');
-            $table->string('ticket_status');
-            $table->timestamps();
-        });
+        // Schema::create('order_details', function (Blueprint $table) {
+        //     $table->uuid('id')->primary();
+        //     $table->string('order_id');
+        //     $table->string('ticket_id');
+        //     $table->string('atendee_name');
+        //     // $table->string('ticket_status');
+        //     $table->timestamps();
+        //     $table->softDeletes();
+        // });
     }
 
     /**

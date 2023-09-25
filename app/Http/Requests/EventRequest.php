@@ -28,13 +28,13 @@ class EventRequest extends FormRequest
             case 'PUT':
             case 'PATCH': 
                 return [
-                    'name' => 'required|string|max:255',
-                    'description' => 'required|string',
-                    'start_date_time' => 'required',
-                    'end_date_time' => 'required',
-                    'location' => 'nullable|string|max:255',
-                    'header_image' => 'nullable|string', 
-                    'status' => 'in:published,drafted',
+                    'name' => 'sometimes|required|string|max:255',
+                    'description' => 'sometimes|required|string',
+                    'start_date_time' => 'sometimes|required',
+                    'end_date_time' => 'sometimes|required',
+                    'location' => 'sometimes|nullable|string|max:255',
+                    'header_image' => 'sometimes|nullable|string', 
+                    'status' => 'sometimes|in:published,drafted',
                 ];
             default:
                 return [];

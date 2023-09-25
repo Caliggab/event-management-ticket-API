@@ -24,9 +24,9 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(), 
+            'user_id' => User::factory(),
             'name' => $this->faker->name,
-            'description' => $this->faker->paragraph,
+            'description' => $this->faker->text(250),
             'start_date_time' => $this->faker->dateTimeBetween('now', '+1 year'),
             'end_date_time' => $this->faker->dateTimeBetween('+2 year', '+3 years'),
             'location' => $this->faker->address,
