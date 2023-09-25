@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Order;
-use App\Models\User;
-use App\Models\Event;
 use App\Models\OrderDetail;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -30,7 +28,6 @@ class OrderFactory extends Factory
             'event_id' => $this->faker->uuid(),
             // 'ticket_id' => $this->faker->uuid(),
             'atendee_name' => $this->faker->name(),
-
 
             // 'order_detail_id' => OrderDetail::factory(),
             'total_price' => $this->faker->numberBetween(1, 10000),

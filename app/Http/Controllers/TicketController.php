@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketRequest;
 use App\Models\Event;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
-use App\Http\Requests\TicketRequest;
 
 class TicketController extends Controller
 {
     /**
      * Display a listing of the ticket types for a specific event.
      *
-     * @param Event $event
      * @return \Illuminate\Http\Response
      */
     public function index(Event $event)
@@ -23,8 +22,7 @@ class TicketController extends Controller
     /**
      * Store a newly created ticket type for an event.
      *
-     * @param Request $request
-     * @param Event $event
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(TicketRequest $request, Event $event)
@@ -38,8 +36,6 @@ class TicketController extends Controller
     /**
      * Display the specified ticket.
      *
-     * @param Event $event
-     * @param Ticket $ticket
      * @return \Illuminate\Http\Response
      */
     public function show(Event $event, Ticket $ticket)
@@ -50,9 +46,7 @@ class TicketController extends Controller
     /**
      * Update the specified ticket.
      *
-     * @param Request $request
-     * @param Event $event
-     * @param Ticket $ticket
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function update(TicketRequest $request, Event $event, Ticket $ticket)
@@ -65,8 +59,6 @@ class TicketController extends Controller
     /**
      * Remove the specified ticket.
      *
-     * @param Event $event
-     * @param Ticket $ticket
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event, Ticket $ticket)

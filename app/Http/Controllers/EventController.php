@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use Illuminate\Support\Str;
-use App\Http\Requests\EventRequest;
 
 class EventController extends Controller
 {
     /**
      * Display a listing of the events.
-     *  
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $events = Event::paginate(10);
+
         return response()->json($events, 200);
     }
 
@@ -36,7 +37,6 @@ class EventController extends Controller
         return response()->json(['message' => 'Event created successfully!', 'event' => $event], 201);
     }
 
-
     /**
      * Display the specified event.
      *
@@ -46,6 +46,7 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
         return response()->json($event, 200);
     }
 
@@ -79,6 +80,7 @@ class EventController extends Controller
         // }
 
         $event->delete();
+
         return response()->json(['message' => 'Event deleted successfully!'], 204);
     }
 }

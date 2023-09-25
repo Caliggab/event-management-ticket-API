@@ -2,11 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Event;
 use App\Models\Order;
-use App\Models\Ticket;
 use App\Models\OrderDetail;
+use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory

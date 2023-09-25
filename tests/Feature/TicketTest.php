@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Event;
 use App\Models\Ticket;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class TicketTest extends TestCase
 {
@@ -70,7 +70,7 @@ class TicketTest extends TestCase
         $ticketData = [
             'name' => 'Updated Name',
             // 'price' => 99.99,
-            'description' => 'Ticket desc'
+            'description' => 'Ticket desc',
         ];
 
         $response = $this->putJson("/api/events/{$event->id}/tickets/{$ticket->id}", $ticketData);
@@ -90,7 +90,7 @@ class TicketTest extends TestCase
 
         $this->assertDatabaseHas('tickets', [
             'id' => $ticket->id,
-            'deleted_at' => now()
+            'deleted_at' => now(),
         ]);
     }
 
@@ -124,7 +124,7 @@ class TicketTest extends TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user);
-        
+
         $ticket = Ticket::factory()->create(['status' => 'checked_in']);
 
         $response = $this->patchJson("/api/{$ticket->id}/check-in");

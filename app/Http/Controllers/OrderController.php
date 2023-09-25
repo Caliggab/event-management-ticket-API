@@ -17,6 +17,7 @@ class OrderController extends Controller
     {
 
         $orders = Order::paginate(10);
+
         return response()->json($orders, 200);
     }
 
@@ -53,8 +54,6 @@ class OrderController extends Controller
             }
         }
 
-
-
         $order->update(['status' => 'refunded']);
 
         // update ticket count
@@ -62,7 +61,6 @@ class OrderController extends Controller
             $ticket->increment('available_quantity');
             $ticket->update(['status' => 'refunded']);
         }
-
 
         return response()->json(['message' => 'Order successfully refunded.']);
 

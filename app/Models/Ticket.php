@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Event;
-use App\Models\Order;
-use App\Models\TicketType;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -27,7 +24,7 @@ class Ticket extends Model
         'location',
         'user_id',
         'start_date_time',
-        'end_date_time'
+        'end_date_time',
     ];
 
     public function event()

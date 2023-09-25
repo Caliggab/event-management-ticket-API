@@ -13,7 +13,7 @@ class TicketRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; 
+        return true;
     }
 
     /**
@@ -37,8 +37,7 @@ class TicketRequest extends FormRequest
             'location' => 'sometimes|nullable|string',
             'start_date_time' => 'sometimes|required|date_format:Y-m-d H:i:s',
             'end_date_time' => 'sometimes|required|date_format:Y-m-d H:i:s|after:sale_start_date',
-            'purchase_limit' => 'sometimes|nullable|integer|min:1'
+            'purchase_limit' => 'sometimes|nullable|integer|min:1',
         ];
     }
-
 }

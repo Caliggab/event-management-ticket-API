@@ -31,12 +31,10 @@ class TicketTypeRequest extends FormRequest
 
             'total_quantity' => 'sometimes|nullable|integer|min:0',
             'available_quantity' => 'sometimes|nullable|integer|min:0',
-            
+
             // 'sale_start_date' => 'required|date_format:Y-m-d H:i:s',
             // 'sale_end_date' => 'required|date_format:Y-m-d H:i:s|after:sale_start_date',
             // 'purchase_limit' => 'nullable|integer|min:1'
         ];
     }
-
-
 }

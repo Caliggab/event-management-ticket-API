@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\TicketType;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class EventControllerTest extends TestCase
 {
@@ -22,7 +22,7 @@ class EventControllerTest extends TestCase
         $event = Event::factory()->create(['user_id' => $user->id]);
 
         $start = $this->faker->dateTimeBetween('next Monday', 'next Monday +7 days')->format('Y-m-d H:i:s');
-        $end = $this->faker->dateTimeBetween($start, $start . ' +2 days')->format('Y-m-d H:i:s');
+        $end = $this->faker->dateTimeBetween($start, $start.' +2 days')->format('Y-m-d H:i:s');
 
         $eventData = [
             'name' => $this->faker->name,
@@ -34,14 +34,6 @@ class EventControllerTest extends TestCase
             'status' => 'drafted',
         ];
 
-        // $ticketTypeA = TicketType::factory()->create(['name' => 'Early Bird', 'event_id'=> $event->id]);
-        // $ticketTypeB = TicketType::factory()->create(['name' => 'VIP', 'event_id'=> $event->id]);
-
-
-        // Ticket::factory()->create(['available_quantity' => 50, 'ticket_type_id' => $ticketTypeA->id, 'event_id'=> $event->id]);
-        // Ticket::factory()->create(['available_quantity' => 20, 'ticket_type_id' => $ticketTypeB->id, 'event_id'=> $event->id]);
-        
-
         $response = $this->postJson(route('events.store'), $eventData);
 
         $response->assertStatus(201)
@@ -52,7 +44,7 @@ class EventControllerTest extends TestCase
     {
 
         $start = $this->faker->dateTimeBetween('next Monday', 'next Monday +7 days')->format('Y-m-d H:i:s');
-        $end = $this->faker->dateTimeBetween($start, $start . ' +2 days')->format('Y-m-d H:i:s');
+        $end = $this->faker->dateTimeBetween($start, $start.' +2 days')->format('Y-m-d H:i:s');
 
         $eventData = [
             'name' => $this->faker->name,

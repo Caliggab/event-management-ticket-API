@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\TicketType;
 use App\Models\Event;
+use App\Models\TicketType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TicketTypeFactory extends Factory
@@ -25,7 +25,7 @@ class TicketTypeFactory extends Factory
         $total_quantity = $this->faker->numberBetween(50, 500);
 
         return [
-            'name' => $this->faker->words(2, true) . ' Ticket',
+            'name' => $this->faker->words(2, true).' Ticket',
             'description' => $this->faker->sentence(5),
             'event_id' => Event::factory(),
             'price' => $this->faker->numberBetween(10, 500),

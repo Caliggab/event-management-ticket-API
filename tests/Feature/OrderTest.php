@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Event;
 use App\Models\Order;
 use App\Models\Ticket;
 use App\Models\TicketType;
-use App\Models\OrderDetail;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User; // Assuming you have a User model for authentication
+use Tests\TestCase; // Assuming you have a User model for authentication
 
 class OrderTest extends TestCase
 {
@@ -26,7 +25,7 @@ class OrderTest extends TestCase
     public function test_it_can_list_all_orders()
     {
         Order::factory()->count(5)->create();
- 
+
         $response = $this->actingAs($this->user)->getJson('/api/orders');
 
         $response->assertStatus(200)
@@ -37,7 +36,7 @@ class OrderTest extends TestCase
     {
         $order = Order::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson('/api/orders/' . $order->id);
+        $response = $this->actingAs($this->user)->getJson('/api/orders/'.$order->id);
 
         $response->assertStatus(200)
             ->assertJson(['id' => $order->id]);
@@ -50,14 +49,13 @@ class OrderTest extends TestCase
         $ticketType = TicketType::factory()->create();
         $ticket = Ticket::factory()->create(['ticket_type_id' => $ticketType->id, 'total_quantity' => 6, 'available_quantity' => 5, 'event_id' => $event->id]);
 
-
-        $response = $this->actingAs($this->user)->putJson('/api/orders/' . $order->id . '/refund');
+        $response = $this->actingAs($this->user)->putJson('/api/orders/'.$order->id.'/refund');
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Order successfully refunded.']);
 
         $this->assertEquals('refunded', $order->fresh()->status);
-        $this->assertEquals(5, $ticket->available_quantity);  
+        $this->assertEquals(5, $ticket->available_quantity);
     }
 
     public function test_it_cannot_refund_a_checked_in_ticket()
@@ -65,7 +63,7 @@ class OrderTest extends TestCase
         $order = Order::factory()->create(['status' => 'paid']);
         Ticket::factory()->create(['order_id' => $order->id, 'status' => 'checked_in']);
 
-        $response = $this->actingAs($this->user)->putJson('/api/orders/' . $order->id . '/refund');
+        $response = $this->actingAs($this->user)->putJson('/api/orders/'.$order->id.'/refund');
 
         $response->assertStatus(400)
             ->assertJson(['message' => 'Cannot refund an order with a checked-in ticket.']);

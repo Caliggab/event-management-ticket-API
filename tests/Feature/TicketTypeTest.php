@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Event;
 use App\Models\TicketType;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class TicketTypeTest extends TestCase
 {
@@ -33,7 +33,7 @@ class TicketTypeTest extends TestCase
             'event_id' => $event->id,
             'price' => 50,
             'sale_start_date' => now(),
-            'sale_end_date' => now()->addDays(10)
+            'sale_end_date' => now()->addDays(10),
         ];
 
         $response = $this->post(route('events.ticket-types.store', ['event' => $event->id]), $ticketTypeData);
@@ -51,7 +51,6 @@ class TicketTypeTest extends TestCase
         $ticketType = TicketType::factory()->create(['event_id' => $event->id]);
 
         $response = $this->get(route('events.ticket-types.show', ['event' => $event->id, 'ticket_type' => $ticketType->id]));
-
 
         $response->assertStatus(200);
         $response->assertJson(['data' => ['name' => $ticketType->name]]);

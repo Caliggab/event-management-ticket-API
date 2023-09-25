@@ -2,11 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\Event;
-use App\Models\Order;
 use App\Models\Ticket;
-use App\Models\TicketType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TicketFactory extends Factory
@@ -26,6 +22,7 @@ class TicketFactory extends Factory
     public function definition()
     {
         $ticketNumber = $this->faker->numberBetween(50, 1000);
+
         return [
             'event_id' => $this->faker->uuid(),
             'user_id' => $this->faker->uuid(),

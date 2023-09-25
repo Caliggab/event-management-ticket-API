@@ -2,18 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Refund;
-use App\Models\Ticket;
-use App\Models\OrderDetail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = [
         'status',
@@ -22,20 +18,23 @@ class Order extends Model
         'event_id',
     ];
 
-
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function orderDetail() {
+    public function orderDetail()
+    {
         return $this->hasOne(OrderDetail::class);
     }
 
-    public function tickets() {
+    public function tickets()
+    {
         return $this->hasMany(Ticket::class);
     }
 
-    public function refunds() {
+    public function refunds()
+    {
         return $this->hasMany(Refund::class);
     }
 }

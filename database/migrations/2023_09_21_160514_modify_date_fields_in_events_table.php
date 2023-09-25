@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dropColumn('end_date');
             $table->dropColumn('start_time');
             $table->dropColumn('end_time');
-            
+
             $table->dateTime('start_date_time');
             $table->dateTime('end_date_time');
         });
