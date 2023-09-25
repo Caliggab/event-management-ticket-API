@@ -39,8 +39,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware(['auth:sanctum'])->patch('{ticket}/check-in', [TicketController::class, 'checkIn']);
 
+Route::put('orders', [OrderController::class, 'store']);
+
+
 Route::middleware(['auth'])->group(function () {
     Route::apiResource('orders', OrderController::class);
 
     Route::put('orders/{order}/refund', [OrderController::class, 'refund']);
 });
+
+Route::get('/stripe',         [PaymentController::class, 'index']);
+Route::post('/stripe/payment', [PaymentController::class, 'payment']);
